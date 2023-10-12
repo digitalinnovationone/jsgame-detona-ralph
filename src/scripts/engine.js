@@ -25,6 +25,7 @@ function countDown() {
     clearInterval(state.actions.countDownTimerId);
     clearInterval(state.actions.timerId);
     alert("Game Over! O seu resultado foi: " + state.values.result);
+    restartGame();
   }
 }
 
@@ -34,15 +35,25 @@ function playSound(audioName) {
   audio.play();
 }
 
+let shuffledSquares = [];
+
+function shuffleSquares() {
+  shuffledSquares = [...state.view.squares].sort(() => Math.random() - 0.5);
+}
+
 function randomSquare() {
   state.view.squares.forEach((square) => {
     square.classList.remove("enemy");
   });
 
-  let randomNumber = Math.floor(Math.random() * 9);
-  let randomSquare = state.view.squares[randomNumber];
-  randomSquare.classList.add("enemy");
-  state.values.hitPosition = randomSquare.id;
+  if (shuffledSquares.length === 0) {
+    
+    shuffleSquares();
+  }
+
+  const nextSquare = shuffledSquares.pop();
+  nextSquare.classList.add("enemy");
+  state.values.hitPosition = nextSquare.id;
 }
 
 function addListenerHitBox() {
@@ -56,6 +67,20 @@ function addListenerHitBox() {
       }
     });
   });
+}
+function restartGame() {
+  clearInterval(state.actions.countDownTimerId);
+  clearInterval(state.actions.timerId);
+
+  state.values.hitPosition = 0;
+  state.values.result = 0;
+  state.values.curretTime = 60;
+
+  state.view.score.textContent = state.values.result;
+  state.view.timeLeft.textContent = state.values.curretTime;
+
+  state.actions.timerId = setInterval(randomSquare, state.values.gameVelocity);
+  state.actions.countDownTimerId = setInterval(countDown, 1000);
 }
 
 function initialize() {
