@@ -29,7 +29,7 @@ Contribuições são bem-vindas! Se você deseja melhorar este jogo, adicionar n
 
 ### Créditos
 
-Este jogo foi desenvolvido como parte de um projeto educacional da Digital Innovation One.
+Este jogo foi desenvolvido como parte de um projeto educacional da DIO.
 
 ---
 
